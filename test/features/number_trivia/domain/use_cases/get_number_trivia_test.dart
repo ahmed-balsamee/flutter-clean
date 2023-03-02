@@ -3,14 +3,11 @@ import 'package:flutter_clean/features/number_trivia/domain/repositories/number_
 import 'package:flutter_clean/features/number_trivia/domain/use_cases/get_number_trivia.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 
-class MockNumberTriviaRepository extends Mock implements NumberTriviaRepository {
+@GenerateNiceMocks([MockSpec<NumberTriviaRepository>()])
+import 'get_number_trivia_test.mocks.dart';
 
-  @override
-  Future<NumberTrivia> getNumberTrivia(int number) async {
-    return await super.noSuchMethod(Invocation.method(#getNumberTrivia, [number]),returnValue: const NumberTrivia(number: 1, text: 'test'));
-  }
-}
 
 void main(){
   GetNumberTrivia? useCase;
@@ -28,7 +25,7 @@ void main(){
         () async {
 
       // Arrange
-          when(mockNumberTriviaRepository!.getNumberTrivia(tNumber))
+          when(mockNumberTriviaRepository!.getNumberTrivia(any))
               .thenAnswer((_) async => tNumberTrivia);
       //Act
       final result = await useCase!(const Params(number: tNumber));
